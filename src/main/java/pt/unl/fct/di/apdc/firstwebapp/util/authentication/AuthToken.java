@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class AuthToken {
 
-    public static final long EXPIRATION_TIME = 1000 * 60 * 60 * 2;
+    public static final long EXPIRATION_TIME = 1000 * 60 * 60 * 2 ;
     public long creationData;
     public long expirationData;
     private String username;
@@ -22,7 +22,7 @@ public class AuthToken {
     }
 
     public boolean isValid() {
-        return creationData + expirationData > System.currentTimeMillis();
+        return expirationData > System.currentTimeMillis();
     }
 
     public String getTokenID() {

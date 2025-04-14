@@ -15,4 +15,7 @@ public class UserPermissions {
     }
 
 
+    public static boolean isActive(AccountStatus userAccountStatus) {
+        return userAccountStatus == AccountStatus.ACTIVE;
+    }
 }

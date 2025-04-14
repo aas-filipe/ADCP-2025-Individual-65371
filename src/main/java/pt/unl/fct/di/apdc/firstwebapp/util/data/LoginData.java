@@ -1,6 +1,6 @@
 package pt.unl.fct.di.apdc.firstwebapp.util.data;
 
-public class LoginData {
+public class LoginData extends Data {
 
 	public String username;
 	public String password;
@@ -14,4 +14,8 @@ public class LoginData {
 		this.password = password;
 	}
 
+	@Override
+	public boolean validInput() {
+		return false;
+	}
 }

@@ -35,6 +35,10 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
+    <listener>
+        <listener-class>pt.unl.fct.di.apdc.firstwebapp.util.startup.StartupOperations</listener-class>
+    </listener>
+
     <servlet-mapping>
         <servlet-name>MainServices</servlet-name>
         <url-pattern>/rest/*</url-pattern>

@@ -52,6 +52,12 @@ public class RegisterData {
 	}
 
 	public boolean validRegistration() {
+		if (this.role == null){
+			this.role = Role.ENDUSER;
+		}
+		if(this.accountStatus == null){
+			this.accountStatus = AccountStatus.INACTIVE;
+		}
 		return nonEmptyOrBlankField(username) &&
 				phoneNumberValid() &&
 				emailValid() &&
@@ -60,18 +66,18 @@ public class RegisterData {
 	}
 
 	private boolean phoneNumberValid() {
-		return nonEmptyOrBlankField(phoneNumber) && phoneNumber.matches("\\+351\\d{9}");
+		return nonEmptyOrBlankField(phoneNumber);
 	}
 
 	private boolean emailValid() {
-		return nonEmptyOrBlankField(email) && email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$");
+		return nonEmptyOrBlankField(email);
 	}
 
 	private boolean fullNameValid() {
-		return nonEmptyOrBlankField(fullName) && fullName.matches("^(\\w+\\s*)+$");
+		return nonEmptyOrBlankField(fullName);
 	}
 
 	private boolean passwordValid() {
-		return nonEmptyOrBlankField(password) && password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[.,!?;:@#\\$%&\\-\\_\\(\\)\\[\\]\\{\\}]).+$") && password.equals(confirmation);
+		return nonEmptyOrBlankField(password) && password.equals(confirmation);
 	}
 }

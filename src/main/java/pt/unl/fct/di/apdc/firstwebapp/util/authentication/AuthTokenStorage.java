@@ -29,9 +29,13 @@ public class AuthTokenStorage {
         return false;
     }
 
-    public boolean useToken(String tokenId, String username){
+    public boolean useToken(String username, String tokenId){
         AuthToken authToken = authTokens.get(username);
         return authToken != null && authToken.getTokenID().equals(tokenId) && authToken.isValid();
 
+    }
+
+    public void logOutUser(String username){
+        authTokens.remove(username);
     }
 }
