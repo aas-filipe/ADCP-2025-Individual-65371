@@ -378,7 +378,7 @@ public class UsersResource {
             if (user == null) {
                 return Response.status(Response.Status.NOT_FOUND).entity("User " + username + " doesn't exist.").build();
             }
-            if (!authTokenStorage.useToken(tokenId, tokenId)) {
+            if (!authTokenStorage.useToken(username, tokenId)) {
                 return Response.status(Response.Status.FORBIDDEN).entity("Invalid session.").build();
             }
 
@@ -404,9 +404,10 @@ public class UsersResource {
                     List<EnduserListable> queryResult = new LinkedList<>();
                     Query<Entity> query = Query.newEntityQueryBuilder()
                             .setKind("User")
-                            .setFilter(StructuredQuery.CompositeFilter.and(StructuredQuery.PropertyFilter.eq(ROLE, "ENDUSER"),
-                                    StructuredQuery.PropertyFilter.eq(ACCOUNT_STATUS, "ACTIVE"),
-                                    StructuredQuery.PropertyFilter.eq(PUBLIC_PROFILE, "True")))
+                            .setFilter(StructuredQuery.CompositeFilter.and(
+                                    StructuredQuery.PropertyFilter.eq(ROLE, Role.ENDUSER.name()),
+                                    StructuredQuery.PropertyFilter.eq(ACCOUNT_STATUS, AccountStatus.ACTIVE.name()),
+                                    StructuredQuery.PropertyFilter.eq(PUBLIC_PROFILE, "true")))
                             .build();
                     datastore.run(query).forEachRemaining(entity -> {
                         EnduserListable result = new EnduserListable(entity.getString(USERNAME), entity.getString(EMAIL), entity.getString(FULL_NAME));
@@ -436,7 +437,7 @@ public class UsersResource {
      * @param newUserDetails
      * @return
      */
-    @Path(CHANGE_PASSWORD_PATH + USER_ID)
+    @Path(CHANGE_ACCOUNT_ATTRIBUTES_PATH)
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response changeAccountAttributes(@HeaderParam("Authorization") String tokenId, ChangeAttributesData changes) {
@@ -468,7 +469,7 @@ public class UsersResource {
             setNullable(builder, ROLE, changes.role);
             setNullable(builder, ACCOUNT_STATUS, changes.accountStatus);
             setNullable(builder, PHONE, changes.phoneNumber);
-            if (changes.publicProfile.equals("True") || changes.publicProfile.equals("False")) {
+            if (changes.publicProfile.equals("true") || changes.publicProfile.equals("false")) {
                 setNullable(builder, PUBLIC_PROFILE, Boolean.parseBoolean(changes.publicProfile));
             }
             setNullable(builder, CC, changes.ccNumber);
